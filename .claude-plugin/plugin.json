@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "mantisbt",
+  "displayName": "MantisBT",
+  "version": "1.10.3",
+  "description": "Read and manage MantisBT bug tracker issues from Claude Code — search, create, update, and annotate issues via the MantisBT REST API.",
+  "author": {
+    "name": "Dominik Pesch",
+    "url": "https://github.com/dpesch"
+  },
+  "homepage": "https://github.com/dpesch/mantisbt-mcp-server",
+  "repository": "https://github.com/dpesch/mantisbt-mcp-server",
+  "license": "MIT",
+  "keywords": ["mantisbt", "bug-tracker", "issue-tracker", "mcp"],
+  "defaultEnabled": false,
+  "userConfig": {
+    "base_url": {
+      "type": "string",
+      "title": "MantisBT API URL",
+      "description": "Base URL of your MantisBT REST API, e.g. https://bugs.example.com/api/rest",
+      "required": true
+    },
+    "api_key": {
+      "type": "string",
+      "title": "API Key",
+      "description": "MantisBT API key — generate one in MantisBT under Profile → API Tokens",
+      "sensitive": true,
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,57 @@
+# CLAUDE.md – mantisbt-claude-plugin
+
+## What is this project?
+
+A **Claude Code plugin** that integrates the [MantisBT MCP Server](https://github.com/dpesch/mantisbt-mcp-server) into Claude Code. It bundles:
+
+- An MCP server configuration that launches `@dpesch/mantisbt-mcp-server` via `npx`
+- Two user-invokable skills: `/mantisbt:research` and `/mantisbt:create`
+- A read-only sub-agent: `mantis-researcher`
+
+The plugin prompts users for their MantisBT URL and API key at enable time (`userConfig`). No manual `settings.json` editing required.
+
+---
+
+## Tech stack
+
+- Pure **Markdown + JSON** — no build step, no dependencies
+- Plugin manifest: `.claude-plugin/plugin.json`
+- MCP server config: `.mcp.json` (references npm package `@dpesch/mantisbt-mcp-server`)
+- Skills: `skills/<name>/SKILL.md`
+- Agents: `agents/<name>.md`
+
+---
+
+## Key commands
+
+```bash
+claude plugin validate .          # Validate plugin manifest and structure
+claude plugin validate . --strict # Treat warnings as errors (use before release)
+claude --plugin-dir .             # Test plugin locally in the current directory
+```
+
+---
+
+## Versioning
+
+The plugin version in `.claude-plugin/plugin.json` is independent of the MCP server version. Bump it when skills, agents, or the MCP configuration change meaningfully.
+
+Follow [Semantic Versioning](https://semver.org/):
+- **Patch** — wording improvements, typo fixes, description tweaks
+- **Minor** — new skill or agent added
+- **Major** — skill renamed/removed, `userConfig` keys renamed, breaking behavior change
+
+---
+
+## Publishing workflow
+
+1. Run `claude plugin validate . --strict` — fix all warnings
+2. Bump `version` in `.claude-plugin/plugin.json`
+3. Commit and push to Codeberg (`origin`)
+4. Submit or update at [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit)
+
+---
+
+## Relationship to mantisbt-mcp-server
+
+This plugin **consumes** the MCP server as an npm package — it does not contain its source code. If the MCP server adds or renames tools, update the skill descriptions here to reflect the new capabilities.
