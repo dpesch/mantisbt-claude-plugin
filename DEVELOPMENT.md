@@ -1,4 +1,4 @@
-# CLAUDE.md – mantisbt-claude-plugin
+# DEVELOPMENT.md – mantisbt-claude-plugin
 
 ## What is this project?
 
