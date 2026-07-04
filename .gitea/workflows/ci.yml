@@ -1,0 +1,55 @@
+name: CI / Release
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: codeberg-small
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate plugin manifest
+        run: claude plugin validate . --strict
+
+  release:
+    runs-on: codeberg-small
+    needs: validate
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract release notes from CHANGELOG
+        run: |
+          VERSION="${{ github.ref_name }}"
+          VERSION_NUM="${VERSION#v}"
+          awk "/^## \[${VERSION_NUM}\]/{found=1; next} found && /^## \[/{exit} found{print}" CHANGELOG.md \
+            | sed '/^[[:space:]]*$/d' > /tmp/release_notes.md
+          echo "Release notes:"
+          cat /tmp/release_notes.md
+
+      - name: Create Codeberg release
+        run: |
+          curl -s -X POST "https://codeberg.org/api/v1/repos/dpesch/mantisbt-claude-plugin/releases" \
+            -H "Authorization: token ${{ secrets.GITEA_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n \
+              --arg tag "${{ github.ref_name }}" \
+              --arg name "${{ github.ref_name }}" \
+              --rawfile body /tmp/release_notes.md \
+              '{tag_name: $tag, name: $name, body: $body, draft: false, prerelease: false}')"

@@ -8,8 +8,8 @@
     "name": "Dominik Pesch",
     "url": "https://github.com/dpesch"
   },
-  "homepage": "https://github.com/dpesch/mantisbt-mcp-server",
-  "repository": "https://github.com/dpesch/mantisbt-mcp-server",
+  "homepage": "https://codeberg.org/dpesch/mantisbt-claude-plugin",
+  "repository": "https://codeberg.org/dpesch/mantisbt-claude-plugin",
   "license": "MIT",
   "keywords": ["mantisbt", "bug-tracker", "issue-tracker", "mcp"],
   "defaultEnabled": false,
