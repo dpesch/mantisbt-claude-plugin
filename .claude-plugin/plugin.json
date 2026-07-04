@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "mantisbt",
   "displayName": "MantisBT",
-  "version": "1.10.3",
+  "version": "1.11.0",
   "description": "Read and manage MantisBT bug tracker issues from Claude Code — search, create, update, and annotate issues via the MantisBT REST API.",
   "author": {
     "name": "Dominik Pesch",

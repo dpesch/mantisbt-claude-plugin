@@ -2,7 +2,7 @@
   "mcpServers": {
     "mantisbt": {
       "command": "npx",
-      "args": ["-y", "@dpesch/mantisbt-mcp-server@latest"],
+      "args": ["-y", "@dpesch/mantisbt-mcp-server@1.11.0"],
       "env": {
         "MANTIS_BASE_URL": "${user_config.base_url}",
         "MANTIS_API_KEY": "${user_config.api_key}"
