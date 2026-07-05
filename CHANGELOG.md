@@ -5,6 +5,15 @@ All notable changes to this plugin are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.11.0+ci.1] - 2026-07-05
+
+Infra-only release — no change to the shipped plugin content. See [DEVELOPMENT.md](DEVELOPMENT.md#infra-only-releases-cin) for what this suffix means.
+
+### Changed
+- CI reduced to a single `validate-and-release` job, triggered only by `v*` tag pushes or PRs (plain pushes to `main` no longer run CI)
+- Added `.github/workflows/release.yml` so tagged releases also produce a GitHub release on the new push-mirror
+- Introduced the `+ci.N` build-metadata scheme for infra-only releases (this one), including a regex escaping fix in both release workflows for versions containing `+`
+
 ## [1.11.0] - 2026-07-05
 
 ### Added
