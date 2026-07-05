@@ -9,7 +9,7 @@ on:
 
 jobs:
   validate-and-release:
-    runs-on: codeberg-small
+    runs-on: codeberg-tiny
 
     steps:
       - uses: actions/checkout@v4
