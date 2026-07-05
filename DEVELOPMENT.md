@@ -51,7 +51,10 @@ Use the local `/release` skill (`.claude/skills/release/SKILL.md`) to prepare a 
 2. Confirm pushing `main` + the tag to Codeberg (`origin`) when asked
 3. CI (`.gitea/workflows/ci.yml`) runs a single `validate-and-release` job: on pull requests it only validates the manifest; on a `v*` tag push it validates and then creates a Codeberg release automatically (requires the `CODEBERG_RELEASE_TOKEN` repository secret to be configured in Codeberg's repo settings). Plain pushes to `main` no longer trigger CI — the `/release` skill's local `claude plugin validate . --strict` pre-flight check already covers that, so a second CI run on every commit would just double the runner queue wait without adding safety.
 4. Codeberg push-mirrors `main` and tags to `github.com/dpesch/mantisbt-claude-plugin` automatically (configured under Codeberg repo Settings → Mirror Settings, syncs on push)
-5. Submit or update the listing at [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit) — manual step, not automated; relies on the GitHub mirror from step 4 so future releases are picked up without re-submitting
+5. Once the tag lands on the GitHub mirror, `.github/workflows/release.yml` triggers there independently and creates the matching GitHub release from the same `CHANGELOG.md` section — no extra secret needed, it uses the built-in `GITHUB_TOKEN`
+6. Submit or update the listing at [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit) — manual step, not automated; relies on the GitHub mirror from step 4 so future releases are picked up without re-submitting
+
+Note: a git tag only triggers the GitHub workflow if the workflow file already existed in the repo *before* that tag was created (tags are immutable snapshots) — the `v1.11.0` tag predates `.github/workflows/release.yml`, so its GitHub release (if wanted) needs a one-time manual `gh release create v1.11.0 ...` after the mirror sync. From the next tag onward it's fully automatic.
 
 ---
 
