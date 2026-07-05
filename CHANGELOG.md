@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.11.0+ci.2] - 2026-07-05
 
-Cosmetic-only release — `displayName` rewording and a new privacy document, no functional change. See [DEVELOPMENT.md](DEVELOPMENT.md#infra-only-releases-cin) for what this suffix means.
+No change to the pinned MCP server, so this ships as a build-metadata release rather than a new base version. See [DEVELOPMENT.md](DEVELOPMENT.md#versioning) for what the `+ci.N` suffix means.
 
 ### Added
 - `PRIVACY.md` describing the plugin's data handling (needed for the Anthropic plugin directory submission)
@@ -15,6 +15,7 @@ Cosmetic-only release — `displayName` rewording and a new privacy document, no
 
 ### Changed
 - Renamed the plugin's `displayName` from "MantisBT" to "MantisBT Integration" to avoid implying it *is* MantisBT itself
+- Simplified the `/release` skill's versioning logic: the plugin's base version now always mirrors the pinned MCP server version, with no separate Patch/Minor/Major decision for the plugin itself — any release that doesn't also bump the MCP pin is a `+ci.N` release, without exception
 
 ## [1.11.0+ci.1] - 2026-07-05
 

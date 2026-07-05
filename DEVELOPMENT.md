@@ -34,39 +34,31 @@ claude --plugin-dir .             # Test plugin locally in the current directory
 
 ## Versioning
 
-The plugin version in `.claude-plugin/plugin.json` is independent of the MCP server version. Bump it when skills, agents, or the MCP configuration change meaningfully.
+The plugin's base SemVer version **always mirrors the pinned MantisBT MCP server version** in `.mcp.json` — there is no independent Patch/Minor/Major decision for the plugin itself. The only thing that determines the version is: *does this release change the MCP pin?*
 
-Follow [Semantic Versioning](https://semver.org/):
-- **Patch** — wording improvements, typo fixes, description tweaks
-- **Minor** — new skill or agent added
-- **Major** — skill renamed/removed, `userConfig` keys renamed, breaking behavior change
+- **The MCP pin changes to `X.Y.Z`** → the release is the plain tag `vX.Y.Z`. This holds regardless of what else shipped in the same release — new skills, doc fixes, even a breaking change to the plugin itself. There's no separate Major/Minor path; the MCP version *is* the plugin version.
+- **The MCP pin does not change** → *any* other change (new/removed/renamed skill or agent, `userConfig` change, doc/CI housekeeping, cosmetic wording, anything) is a **build-metadata release**: `<current-pin>+ci.<N>`, e.g. `1.11.0+ci.3`. `<N>` increments per such release since the last time the MCP pin changed, and resets to `1` the next time the pin changes.
 
-### Infra-only releases (`+ci.N`)
+Per the SemVer spec, build metadata is ignored for version precedence, so `1.11.0+ci.1` and `1.11.0+ci.3` are precedence-equal to `1.11.0` — a `+ci.N` release never registers as a plugin update to marketplace/update tooling that compares versions correctly. `claude plugin validate --strict` accepts this format.
 
-Not every tag corresponds to a change in what's shipped to plugin users. CI workflow changes, this file, or other repo-only tooling don't touch `skills/`, `agents/`, `.claude-plugin/`, or `.mcp.json` — bumping a plain SemVer number for those would misleadingly suggest a plugin update.
+The git tag is `v<version>` (`+` is a valid character in git tag names). The `CHANGELOG.md` heading must match the tag exactly, minus the leading `v` (e.g. `## [1.11.0+ci.3]`) — both CI workflows extract release notes by matching that heading literally, with `.`/`+` escaped for the `awk` regex (see `.gitea/workflows/ci.yml` / `.github/workflows/release.yml`).
 
-Instead, such releases use SemVer's own **build metadata** suffix: `<base-version>+ci.<N>`, e.g. `1.11.0+ci.1`, `1.11.0+ci.2`. Rules:
-
-- `<base-version>` is the version of the last *plain* tag (no `+ci` suffix) — it does not change.
-- `<N>` increments per infra-only release since that plain tag, and resets to `1` the next time a plain (content) release happens.
-- Per the SemVer spec, build metadata is ignored for version precedence, so `1.11.0+ci.1` and `1.11.0+ci.3` are precedence-equal to `1.11.0` — this never registers as a plugin update to marketplace/update tooling that compares versions correctly. `claude plugin validate --strict` accepts this format.
-- The git tag is `v<base-version>+ci.<N>` (`+` is a valid character in git tag names). The `CHANGELOG.md` heading must match the tag exactly, minus the leading `v` (e.g. `## [1.11.0+ci.1]`) — both CI workflows extract release notes by matching that heading literally, with `.`/`+` escaped for the `awk` regex (see `.gitea/workflows/ci.yml` / `.github/workflows/release.yml`).
-- The `/release` skill (`.claude/skills/release/SKILL.md`) automates this decision — it detects whether anything under the content paths changed since the last plain tag and proposes the right scheme.
+The `/release` skill (`.claude/skills/release/SKILL.md`) automates this — it asks whether the MCP pin should be updated as part of the release and derives the version from that single decision.
 
 ---
 
 ## Publishing workflow
 
-Use the local `/release` skill (`.claude/skills/release/SKILL.md`) to prepare a release — it validates the manifest, proposes a version bump, updates `CHANGELOG.md`, commits, and creates an annotated `vX.Y.Z` tag. It never pushes without explicit confirmation.
+Use the local `/release` skill (`.claude/skills/release/SKILL.md`) to prepare a release — it validates the manifest, derives the version from the MCP-pin decision (see Versioning above), updates `CHANGELOG.md`, commits, and creates an annotated `vX.Y.Z[+ci.N]` tag. It never pushes without explicit confirmation.
 
-1. Run the `/release` skill and confirm the proposed version bump
+1. Run the `/release` skill and confirm the proposed version
 2. Confirm pushing `main` + the tag to Codeberg (`origin`) when asked
-3. CI (`.gitea/workflows/ci.yml`) runs a single `validate-and-release` job: on pull requests it only validates the manifest; on a `v*` tag push it validates and then creates a Codeberg release automatically (requires the `CODEBERG_RELEASE_TOKEN` repository secret to be configured in Codeberg's repo settings). Plain pushes to `main` no longer trigger CI — the `/release` skill's local `claude plugin validate . --strict` pre-flight check already covers that, so a second CI run on every commit would just double the runner queue wait without adding safety.
-4. Codeberg push-mirrors `main` and tags to `github.com/dpesch/mantisbt-claude-plugin` automatically (configured under Codeberg repo Settings → Mirror Settings, syncs on push)
+3. CI (`.gitea/workflows/ci.yml`) runs a single `validate-and-release` job on `codeberg-tiny`: on pull requests it only validates the manifest; on a `v*` tag push it validates and then creates a Codeberg release automatically (requires the `CODEBERG_RELEASE_TOKEN` repository secret to be configured in Codeberg's repo settings, and the repo's **Releases** unit to be enabled — Settings → Units). Plain pushes to `main` no longer trigger CI — the `/release` skill's local `claude plugin validate . --strict` pre-flight check already covers that.
+4. Codeberg push-mirrors `main` and tags to `github.com/dpesch/mantisbt-claude-plugin` automatically (configured under Codeberg repo Settings → Mirror Settings → Push Mirror, syncs on push; the GitHub-side classic PAT used for this needs the `public_repo` scope **and** `workflow` scope, since `.github/workflows/release.yml` is itself part of what gets pushed)
 5. Once the tag lands on the GitHub mirror, `.github/workflows/release.yml` triggers there independently and creates the matching GitHub release from the same `CHANGELOG.md` section — no extra secret needed, it uses the built-in `GITHUB_TOKEN`
-6. Submit or update the listing at [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit) — manual step, not automated; relies on the GitHub mirror from step 4 so future releases are picked up without re-submitting
+6. Submitting the plugin listing is a **one-time manual step**, already done for this plugin — the exact URL depends on account type: Team/Enterprise accounts use `claude.ai/admin-settings/directory/submissions/plugins/new` (needs Organization Owner or delegated directory-management access), while individual Console-only authors use `platform.claude.com/plugins/submit`. Either way it relies on the GitHub mirror from step 4, so future releases are picked up automatically without re-submitting.
 
-Note: a git tag only triggers the GitHub workflow if the workflow file already existed in the repo *before* that tag was created (tags are immutable snapshots) — the `v1.11.0` tag predates `.github/workflows/release.yml`, so its GitHub release (if wanted) needs a one-time manual `gh release create v1.11.0 ...` after the mirror sync. From the next tag onward it's fully automatic.
+Note: a git tag only triggers the GitHub workflow if the workflow file already existed in the repo *before* that tag was created (tags are immutable snapshots) — this bit `v1.11.0` and `v1.11.0+ci.1` the first time the mirror was set up (both tags arrived on GitHub in the same initial sync that introduced the workflow file, so GitHub never fired it for them retroactively; both releases were backfilled once via `gh release create`). Any tag created after the workflow file already existed on GitHub triggers it normally.
 
 ---
 
