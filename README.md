@@ -35,6 +35,22 @@ On first use, Claude Code will prompt you for two settings (`userConfig`):
 | **MantisBT API URL** | Base URL of your MantisBT REST API, e.g. `https://bugs.example.com/api/rest` |
 | **API Key** | Your MantisBT API token (stored securely, never shown in plain text) |
 
+## Optional: local semantic search
+
+The underlying MCP server can optionally build a local, offline semantic search index over your MantisBT issues, so `/mantisbt:research` can answer natural-language queries (e.g. *"login fails after password reset"*) instead of relying on exact keyword matches. The embedding model (~80 MB) is downloaded once on first use and runs entirely offline — no external API calls.
+
+It's disabled by default. To enable it, set these environment variables for the process launching Claude Code (they are not part of this plugin's `userConfig`, since they configure the MCP server itself):
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `MANTIS_SEARCH_ENABLED` | `false` | Set to `true` to enable semantic search |
+| `MANTIS_SEARCH_BACKEND` | `vectra` | `vectra` (pure JS, no extra install) or `sqlite-vec` (faster for 10,000+ issues, requires `npm install sqlite-vec better-sqlite3`) |
+| `MANTIS_SEARCH_DIR` | `{MANTIS_CACHE_DIR}/search` | Directory for the search index |
+| `MANTIS_SEARCH_MODEL` | `Xenova/paraphrase-multilingual-MiniLM-L12-v2` | Embedding model name |
+| `MANTIS_SEARCH_THREADS` | `1` | ONNX threads used when indexing |
+
+See the [MantisBT MCP Server README](https://codeberg.org/dpesch/mantisbt-mcp-server) for details.
+
 ## Usage
 
 ```

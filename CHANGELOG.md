@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 - `sync` skill for checking and refreshing the MantisBT metadata cache
 - Explicit read-only tool allowlist on the `mantis-researcher` agent
+- README section documenting the optional local semantic search (env vars, defaults)
 
 ### Changed
 - `research` and `create` skills updated for MCP server v1.11.0: MCP resources (`mantis://...`), `select` field projection, batch `get_issues`, guided confirmation before creating an issue, `custom_fields` support
