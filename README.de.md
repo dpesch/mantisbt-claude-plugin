@@ -11,6 +11,7 @@ Ein [Claude Code](https://claude.com/product/claude-code)-Plugin, das den [Manti
   - `/mantisbt:research` — Recherche zu Issues, Bugs und Projekt-Historie (nur lesend)
   - `/mantisbt:create` — geführtes Anlegen eines neuen Tickets (Bug, Feature, Task)
   - `/mantisbt:sync` — Status des MantisBT-Metadaten-Caches prüfen oder aktualisieren
+  - `/mantisbt:setup` — geführte Einrichtung, Status-Check und Troubleshooting für die optionale semantische Suche
 - **Agent**
   - `mantis-researcher` — ein read-only Sub-Agent für token-intensive Recherchen (Bulk-Abfragen, projektübergreifende Suchen, große Ergebnismengen), isoliert vom Hauptkontext
 
@@ -49,7 +50,7 @@ Standardmäßig ist die Funktion deaktiviert. Zum Aktivieren müssen folgende Um
 | `MANTIS_SEARCH_MODEL` | `Xenova/paraphrase-multilingual-MiniLM-L12-v2` | Name des Embedding-Modells |
 | `MANTIS_SEARCH_THREADS` | `1` | Anzahl ONNX-Threads bei der Indexierung |
 
-Details siehe [README des MantisBT-MCP-Servers](https://codeberg.org/dpesch/mantisbt-mcp-server).
+Details siehe [README des MantisBT-MCP-Servers](https://codeberg.org/dpesch/mantisbt-mcp-server), oder einfach `/mantisbt:setup` ausführen — der Skill prüft, ob die semantische Suche aktiv ist, und führt bei Bedarf durch die Aktivierung.
 
 ## Verwendung
 
@@ -57,6 +58,7 @@ Details siehe [README des MantisBT-MCP-Servers](https://codeberg.org/dpesch/mant
 /mantisbt:research wie ist der Status von Ticket 1234?
 /mantisbt:create lege einen Bug an: Login schlägt nach Passwort-Reset fehl
 /mantisbt:sync --info
+/mantisbt:setup
 ```
 
 Du kannst dein Anliegen auch einfach in natürlicher Sprache formulieren ("zeig offene P1-Bugs in Projekt X", "lege einen Feature-Wunsch für Dark Mode an") — der passende Skill wird anhand des Kontexts automatisch ausgelöst.

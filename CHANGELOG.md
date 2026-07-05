@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 - `sync` skill for checking and refreshing the MantisBT metadata cache
+- `setup` skill: guided setup, status check, and troubleshooting for the optional semantic search
 - Explicit read-only tool allowlist on the `mantis-researcher` agent
 - README section documenting the optional local semantic search (env vars, defaults)
 

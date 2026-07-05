@@ -5,7 +5,7 @@
 A **Claude Code plugin** that integrates the [MantisBT MCP Server](https://github.com/dpesch/mantisbt-mcp-server) into Claude Code. It bundles:
 
 - An MCP server configuration that launches `@dpesch/mantisbt-mcp-server` via `npx`
-- Three user-invokable skills: `/mantisbt:research`, `/mantisbt:create`, `/mantisbt:sync`
+- Four user-invokable skills: `/mantisbt:research`, `/mantisbt:create`, `/mantisbt:sync`, `/mantisbt:setup`
 - A read-only sub-agent: `mantis-researcher`
 
 The plugin prompts users for their MantisBT URL and API key at enable time (`userConfig`). No manual `settings.json` editing required.

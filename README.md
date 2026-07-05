@@ -11,6 +11,7 @@ A [Claude Code](https://claude.com/product/claude-code) plugin that integrates t
   - `/mantisbt:research` — research issues, bugs, and project history (read-only)
   - `/mantisbt:create` — guided creation of a new issue (bug, feature, task)
   - `/mantisbt:sync` — check or refresh the MantisBT metadata cache
+  - `/mantisbt:setup` — guided setup, status check, and troubleshooting for the optional semantic search
 - **Agent**
   - `mantis-researcher` — a read-only sub-agent for token-intensive research (bulk lookups, cross-project searches, large result sets), isolated from the main conversation
 
@@ -49,7 +50,7 @@ It's disabled by default. To enable it, set these environment variables for the 
 | `MANTIS_SEARCH_MODEL` | `Xenova/paraphrase-multilingual-MiniLM-L12-v2` | Embedding model name |
 | `MANTIS_SEARCH_THREADS` | `1` | ONNX threads used when indexing |
 
-See the [MantisBT MCP Server README](https://codeberg.org/dpesch/mantisbt-mcp-server) for details.
+See the [MantisBT MCP Server README](https://codeberg.org/dpesch/mantisbt-mcp-server) for details, or just run `/mantisbt:setup` — it checks whether semantic search is active and walks you through enabling it if not.
 
 ## Usage
 
@@ -57,6 +58,7 @@ See the [MantisBT MCP Server README](https://codeberg.org/dpesch/mantisbt-mcp-se
 /mantisbt:research what's the status of issue 1234?
 /mantisbt:create file a bug: login fails after password reset
 /mantisbt:sync --info
+/mantisbt:setup
 ```
 
 You can also just describe what you need in natural language ("find open P1 bugs in project X", "create a feature request for dark mode") — the relevant skill is triggered automatically based on context.
