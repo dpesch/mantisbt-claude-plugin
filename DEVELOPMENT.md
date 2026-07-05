@@ -41,6 +41,18 @@ Follow [Semantic Versioning](https://semver.org/):
 - **Minor** — new skill or agent added
 - **Major** — skill renamed/removed, `userConfig` keys renamed, breaking behavior change
 
+### Infra-only releases (`+ci.N`)
+
+Not every tag corresponds to a change in what's shipped to plugin users. CI workflow changes, this file, or other repo-only tooling don't touch `skills/`, `agents/`, `.claude-plugin/`, or `.mcp.json` — bumping a plain SemVer number for those would misleadingly suggest a plugin update.
+
+Instead, such releases use SemVer's own **build metadata** suffix: `<base-version>+ci.<N>`, e.g. `1.11.0+ci.1`, `1.11.0+ci.2`. Rules:
+
+- `<base-version>` is the version of the last *plain* tag (no `+ci` suffix) — it does not change.
+- `<N>` increments per infra-only release since that plain tag, and resets to `1` the next time a plain (content) release happens.
+- Per the SemVer spec, build metadata is ignored for version precedence, so `1.11.0+ci.1` and `1.11.0+ci.3` are precedence-equal to `1.11.0` — this never registers as a plugin update to marketplace/update tooling that compares versions correctly. `claude plugin validate --strict` accepts this format.
+- The git tag is `v<base-version>+ci.<N>` (`+` is a valid character in git tag names). The `CHANGELOG.md` heading must match the tag exactly, minus the leading `v` (e.g. `## [1.11.0+ci.1]`) — both CI workflows extract release notes by matching that heading literally, with `.`/`+` escaped for the `awk` regex (see `.gitea/workflows/ci.yml` / `.github/workflows/release.yml`).
+- The `/release` skill (`.claude/skills/release/SKILL.md`) automates this decision — it detects whether anything under the content paths changed since the last plain tag and proposes the right scheme.
+
 ---
 
 ## Publishing workflow

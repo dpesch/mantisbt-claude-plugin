@@ -30,7 +30,8 @@ jobs:
         run: |
           VERSION="${{ github.ref_name }}"
           VERSION_NUM="${VERSION#v}"
-          awk "/^## \[${VERSION_NUM}\]/{found=1; next} found && /^## \[/{exit} found{print}" CHANGELOG.md \
+          VERSION_NUM_ESCAPED=$(printf '%s' "$VERSION_NUM" | sed -e 's/[.[\*^$+]/\\&/g')
+          awk "/^## \[${VERSION_NUM_ESCAPED}\]/{found=1; next} found && /^## \[/{exit} found{print}" CHANGELOG.md \
             | sed '/^[[:space:]]*$/d' > /tmp/release_notes.md
           echo "Release notes:"
           cat /tmp/release_notes.md
