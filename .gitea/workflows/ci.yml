@@ -46,7 +46,7 @@ jobs:
       - name: Create Codeberg release
         run: |
           curl -s -X POST "https://codeberg.org/api/v1/repos/dpesch/mantisbt-claude-plugin/releases" \
-            -H "Authorization: token ${{ secrets.GITEA_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.CODEBERG_RELEASE_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d "$(jq -n \
               --arg tag "${{ github.ref_name }}" \

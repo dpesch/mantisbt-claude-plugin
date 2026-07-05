@@ -49,7 +49,7 @@ Use the local `/release` skill (`.claude/skills/release/SKILL.md`) to prepare a 
 
 1. Run the `/release` skill and confirm the proposed version bump
 2. Confirm pushing `main` + the tag to Codeberg (`origin`) when asked
-3. CI (`.gitea/workflows/ci.yml`) validates the plugin on every push/PR, and on tag push creates a Codeberg release automatically (requires the `GITEA_TOKEN` repository secret to be configured in Codeberg's repo settings)
+3. CI (`.gitea/workflows/ci.yml`) validates the plugin on every push/PR, and on tag push creates a Codeberg release automatically (requires the `CODEBERG_RELEASE_TOKEN` repository secret to be configured in Codeberg's repo settings)
 4. Submit or update the listing at [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit) — manual step, not automated
 
 No GitHub mirror is configured for this repo at the moment (unlike `mantisbt-mcp-server`) — add one only if the submission process ends up requiring a GitHub URL.
