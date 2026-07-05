@@ -25,9 +25,9 @@ Classify the change per the existing convention:
 
 Present your classification and the resulting version number to the user via **AskUserQuestion** (options: accept the proposed bump, or pick a different bump level) — do not decide silently, this is a judgment call the user should confirm. The resulting tag is a **plain** `v<version>` with no suffix, and the `+ci.N` counter resets: the next infra-only release after this one starts again at `+ci.1`.
 
-### Case B: only repo/CI/doc-tooling changed (nothing under `skills/`, `agents/`, `.claude-plugin/`, `.mcp.json`)
+### Case B: only repo/CI/doc-tooling changed, or a purely cosmetic `.claude-plugin/plugin.json` field
 
-This is not a plugin content release — it's infra/tooling housekeeping (CI workflow changes, `DEVELOPMENT.md`, etc.) that ships nothing new to plugin users. Use this repo's versioning scheme instead of a normal SemVer bump:
+This is not a plugin content release — it's infra/tooling housekeeping (CI workflow changes, `DEVELOPMENT.md`, etc.) that ships nothing new to plugin users, and also covers cosmetic-only edits to `plugin.json` that change no behavior — e.g. `displayName` wording — even though that file is normally on the content-path list. The dividing line is *does this change what the plugin does*, not *which file was touched*: renaming a skill, changing `userConfig`, or bumping the `.mcp.json` pin is always Case A; rewording `displayName`/`description`/`keywords` with no functional difference can be Case B at the user's discretion. Confirm with the user which it is — don't decide silently either way. Use this repo's versioning scheme instead of a normal SemVer bump:
 
 - **Base version** stays exactly the last plain tag's version (e.g. `1.11.0`) — do not bump patch/minor/major.
 - **Suffix**: SemVer build metadata, `+ci.<N>`, where `<N>` is one more than the highest existing `+ci.N` tag for that base version (count with `git tag -l 'v<base>+ci.*'`; if none exist yet, `N=1`).

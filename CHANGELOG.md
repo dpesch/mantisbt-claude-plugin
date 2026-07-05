@@ -5,6 +5,17 @@ All notable changes to this plugin are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.11.0+ci.2] - 2026-07-05
+
+Cosmetic-only release — `displayName` rewording and a new privacy document, no functional change. See [DEVELOPMENT.md](DEVELOPMENT.md#infra-only-releases-cin) for what this suffix means.
+
+### Added
+- `PRIVACY.md` describing the plugin's data handling (needed for the Anthropic plugin directory submission)
+- Privacy section linking `PRIVACY.md` from both READMEs
+
+### Changed
+- Renamed the plugin's `displayName` from "MantisBT" to "MantisBT Integration" to avoid implying it *is* MantisBT itself
+
 ## [1.11.0+ci.1] - 2026-07-05
 
 Infra-only release — no change to the shipped plugin content. See [DEVELOPMENT.md](DEVELOPMENT.md#infra-only-releases-cin) for what this suffix means.
