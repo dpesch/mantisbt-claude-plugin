@@ -49,10 +49,9 @@ Use the local `/release` skill (`.claude/skills/release/SKILL.md`) to prepare a 
 
 1. Run the `/release` skill and confirm the proposed version bump
 2. Confirm pushing `main` + the tag to Codeberg (`origin`) when asked
-3. CI (`.gitea/workflows/ci.yml`) validates the plugin on every push/PR, and on tag push creates a Codeberg release automatically (requires the `CODEBERG_RELEASE_TOKEN` repository secret to be configured in Codeberg's repo settings)
-4. Submit or update the listing at [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit) — manual step, not automated
-
-No GitHub mirror is configured for this repo at the moment (unlike `mantisbt-mcp-server`) — add one only if the submission process ends up requiring a GitHub URL.
+3. CI (`.gitea/workflows/ci.yml`) runs a single `validate-and-release` job: on pull requests it only validates the manifest; on a `v*` tag push it validates and then creates a Codeberg release automatically (requires the `CODEBERG_RELEASE_TOKEN` repository secret to be configured in Codeberg's repo settings). Plain pushes to `main` no longer trigger CI — the `/release` skill's local `claude plugin validate . --strict` pre-flight check already covers that, so a second CI run on every commit would just double the runner queue wait without adding safety.
+4. Codeberg push-mirrors `main` and tags to `github.com/dpesch/mantisbt-claude-plugin` automatically (configured under Codeberg repo Settings → Mirror Settings, syncs on push)
+5. Submit or update the listing at [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit) — manual step, not automated; relies on the GitHub mirror from step 4 so future releases are picked up without re-submitting
 
 ---
 

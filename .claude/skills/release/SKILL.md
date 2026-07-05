@@ -46,4 +46,4 @@ Show the user a summary: the new version, the commit, and the tag that was creat
 
 ## 8. After pushing
 
-If the tag was pushed, remind the user that the `.gitea/workflows/ci.yml` release job will create a Codeberg release automatically (provided the `CODEBERG_RELEASE_TOKEN` repository secret is configured) — no further manual action needed there. Mention that submitting/updating the listing at platform.claude.com/plugins/submit remains a manual step.
+If the tag was pushed, remind the user that the `.gitea/workflows/ci.yml` `validate-and-release` job (triggered only by the `v*` tag push, not by the `main` push) will create a Codeberg release automatically (provided the `CODEBERG_RELEASE_TOKEN` repository secret is configured), and that Codeberg's push-mirror will propagate `main` and the tag to the GitHub mirror shortly after. Mention that submitting/updating the listing at platform.claude.com/plugins/submit remains a manual step.
