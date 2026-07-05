@@ -67,6 +67,10 @@ Du kannst dein Anliegen auch einfach in natürlicher Sprache formulieren ("zeig 
 
 Die Plugin-Version (`.claude-plugin/plugin.json`) ist unabhängig von der in `.mcp.json` gepinnten Version des MantisBT-MCP-Servers. Versionierungsregeln und der Release-Prozess sind in [DEVELOPMENT.md](DEVELOPMENT.md) beschrieben (auf Englisch).
 
+## Datenschutz
+
+Dieses Plugin hat kein eigenes Backend — siehe [PRIVACY.md](PRIVACY.md) (Englisch) für Details, welche Daten es verarbeitet und wie.
+
 ## Lizenz
 
 [MIT](LICENSE) © Dominik Pesch

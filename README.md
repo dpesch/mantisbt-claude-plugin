@@ -67,6 +67,10 @@ You can also just describe what you need in natural language ("find open P1 bugs
 
 The plugin version (`.claude-plugin/plugin.json`) is independent of the MantisBT MCP server version pinned in `.mcp.json`. See [DEVELOPMENT.md](DEVELOPMENT.md) for versioning rules and the release process.
 
+## Privacy
+
+This plugin has no backend of its own — see [PRIVACY.md](PRIVACY.md) for what data it handles and how.
+
 ## License
 
 [MIT](LICENSE) © Dominik Pesch
