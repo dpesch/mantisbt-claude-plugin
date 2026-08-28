@@ -5,6 +5,16 @@ All notable changes to this plugin are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.12.0+ci.1] - 2026-08-28
+
+No change to the pinned MCP server, so this ships as a build-metadata release rather than a new base version. See [DEVELOPMENT.md](DEVELOPMENT.md#versioning) for what the `+ci.N` suffix means.
+
+### Added
+- `.claude-plugin/marketplace.json` — the repository is now a plugin marketplace (`11com7-plugins`) in its own right, so it can be added via `/plugin marketplace add` and synced from the organization settings. Without that manifest, neither path recognises the repo as a marketplace
+
+### Changed
+- Installation instructions in both READMEs replaced the previous placeholder with the actual `marketplace add` / `install mantisbt@11com7-plugins` commands
+
 ## [1.12.0] - 2026-08-28
 
 Follows the MCP server release v1.12.0, which adds support for MantisBT installations without URL rewriting.
