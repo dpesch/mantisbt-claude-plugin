@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "11com7-plugins",
+  "description": "Claude Code plugins by 11com7 — integrations with the development and issue-tracking tools used in our projects.",
+  "owner": {
+    "name": "Dominik Pesch",
+    "url": "https://github.com/dpesch"
+  },
+  "plugins": [
+    {
+      "name": "mantisbt",
+      "source": "./"
+    }
+  ]
+}

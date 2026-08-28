@@ -23,10 +23,11 @@ Ein [Claude Code](https://claude.com/product/claude-code)-Plugin, das den [Manti
 
 ## Installation
 
-Plugin in Claude Code installieren und aktivieren:
+Dieses Repository ist selbst ein Plugin-Marketplace (`11com7-plugins`). In Claude Code hinzufügen und das Plugin daraus installieren:
 
 ```
-/plugin install <marketplace-or-repo-reference>
+/plugin marketplace add dpesch/mantisbt-claude-plugin
+/plugin install mantisbt@11com7-plugins
 ```
 
 Bei der ersten Nutzung fragt Claude Code zwei Einstellungen ab (`userConfig`):

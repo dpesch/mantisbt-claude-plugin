@@ -23,10 +23,11 @@ A [Claude Code](https://claude.com/product/claude-code) plugin that integrates t
 
 ## Installation
 
-Install the plugin in Claude Code, then enable it:
+This repository is itself a plugin marketplace (`11com7-plugins`). Add it in Claude Code, then install the plugin from it:
 
 ```
-/plugin install <marketplace-or-repo-reference>
+/plugin marketplace add dpesch/mantisbt-claude-plugin
+/plugin install mantisbt@11com7-plugins
 ```
 
 On first use, Claude Code will prompt you for two settings (`userConfig`):
