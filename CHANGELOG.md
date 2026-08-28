@@ -5,6 +5,17 @@ All notable changes to this plugin are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.12.0] - 2026-08-28
+
+Follows the MCP server release v1.12.0, which adds support for MantisBT installations without URL rewriting.
+
+### Added
+- README section (EN/DE) on connecting to a MantisBT installation whose REST API is only reachable through the `index.php` front controller — entering the full `…/api/rest/index.php` URL is enough, the MCP server detects the suffix and routes accordingly
+
+### Changed
+- Pinned MantisBT MCP server to v1.12.0
+- `base_url` userConfig description now mentions the `index.php` front-controller URL variant, so the hint is visible in the plugin's setup dialog
+
 ## [1.11.0+ci.2] - 2026-07-05
 
 No change to the pinned MCP server, so this ships as a build-metadata release rather than a new base version. See [DEVELOPMENT.md](DEVELOPMENT.md#versioning) for what the `+ci.N` suffix means.
