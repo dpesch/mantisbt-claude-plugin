@@ -5,6 +5,13 @@ All notable changes to this plugin are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.12.0+ci.2] - 2026-08-28
+
+No change to the pinned MCP server, so this ships as a build-metadata release rather than a new base version. See [DEVELOPMENT.md](DEVELOPMENT.md#versioning) for what the `+ci.N` suffix means.
+
+### Fixed
+- CI now validates the plugin manifest again: once `marketplace.json` exists, `claude plugin validate .` only checks the *marketplace* manifest, so `plugin.json` silently dropped out of the pipeline. It is now validated explicitly as a second command
+
 ## [1.12.0+ci.1] - 2026-08-28
 
 No change to the pinned MCP server, so this ships as a build-metadata release rather than a new base version. See [DEVELOPMENT.md](DEVELOPMENT.md#versioning) for what the `+ci.N` suffix means.
