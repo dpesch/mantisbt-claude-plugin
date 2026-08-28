@@ -36,6 +36,16 @@ Bei der ersten Nutzung fragt Claude Code zwei Einstellungen ab (`userConfig`):
 | **MantisBT API URL** | Basis-URL deiner MantisBT-REST-API, z.B. `https://bugs.example.com/api/rest` |
 | **API Key** | Dein MantisBT-API-Token (wird sicher gespeichert, nie im Klartext angezeigt) |
 
+### MantisBT ohne URL-Rewriting
+
+Ist auf dem MantisBT-Server kein URL-Rewriting aktiv (Apache ohne `mod_rewrite`, IIS ohne URL-Rewrite-Modul), ist die REST-API nur über den Front-Controller `index.php` erreichbar. In diesem Fall die URL genau so eintragen, wie sie auch im Browser funktioniert:
+
+```
+https://bugs.example.com/api/rest/index.php
+```
+
+Der MCP-Server erkennt die `index.php`-Endung und leitet alle Anfragen darüber – weitere Konfiguration ist nicht nötig. Alternativ lässt sich `MANTIS_USE_INDEX_PHP=true` in der Umgebung setzen, die Claude Code startet; eine explizit gesetzte Variable hat immer Vorrang vor der Erkennung anhand der URL.
+
 ## Optional: lokale semantische Suche
 
 Der zugrunde liegende MCP-Server kann optional einen lokalen, offline laufenden semantischen Such-Index über deine MantisBT-Tickets aufbauen, damit `/mantisbt:research` Anfragen in natürlicher Sprache beantworten kann (z.B. »Login schlägt nach Passwort-Reset fehl«) statt sich auf exakte Stichwort-Treffer zu verlassen. Das Embedding-Modell (~80 MB) wird bei der ersten Nutzung einmalig heruntergeladen und läuft danach vollständig offline — ohne externe API-Aufrufe.

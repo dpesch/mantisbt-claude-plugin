@@ -17,7 +17,7 @@
     "base_url": {
       "type": "string",
       "title": "MantisBT API URL",
-      "description": "Base URL of your MantisBT REST API, e.g. https://bugs.example.com/api/rest",
+      "description": "Base URL of your MantisBT REST API, e.g. https://bugs.example.com/api/rest — on a server without URL rewriting, use the front-controller URL instead: https://bugs.example.com/api/rest/index.php",
       "required": true
     },
     "api_key": {
